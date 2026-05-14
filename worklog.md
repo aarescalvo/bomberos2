@@ -94,3 +94,47 @@ Implemented Etapa 2 personnel enhancements: specialties (A3), licenses (A4), joi
 - TypeScript compilation: ✅ No errors (`tsc --noEmit` passes)
 - Zod schemas: ✅ Verified specialty and license schemas parse correctly
 - DB schema: ✅ In-memory test confirms all new tables and indexes create successfully
+
+## Task 3-4: Complete SGP-B Frontend (Single-Page Next.js App) - COMPLETED
+
+**Date**: 2026-05-14
+**Agent**: Frontend Development Agent
+
+### Summary
+Built the complete SGP-B Fire Station Management System frontend as a single-page Next.js application. All 10 modules implemented with CRUD operations, proper auth flow, fire-themed UI, and Spanish language interface.
+
+### Files Created
+- `src/app/page.tsx` - Main page with auth flow (login/dashboard toggle), state-based navigation
+- `src/components/AppShell.tsx` - Layout with collapsible sidebar (dark theme), topbar with user info, footer
+- `src/components/Dashboard.tsx` - Stats overview with 8 metric cards, personnel by rank chart, recent incidents, pending alerts
+- `src/components/Personal.tsx` - Personnel CRUD with search, create/edit dialog, detail view with specialties/licenses badges, delete confirmation, seniority calculation
+- `src/components/Incidentes.tsx` - Incidents CRUD with search/filter by status, severity/status badges, create dialog
+- `src/components/Guardias.tsx` - Guard shifts management with personnel assignment checkboxes, shift type badges (DIA/NOCHE/COMPLETA)
+- `src/components/Asistencias.tsx` - Attendance tracking with check-in/out times, status filter, personnel selector
+- `src/components/Flota.tsx` - Vehicle/fleet management with damages display, fuel records, status badges
+- `src/components/Alertas.tsx` - Alerts with read/unread toggle, priority badges, type badges, mark as read
+- `src/components/Pagos.tsx` - Payments with income/expense/balance summary cards, type filter, method tracking
+- `src/components/Novedades.tsx` - Duty log with shift type icons, activities/observations display
+- `src/components/Configuracion.tsx` - Settings CRUD with key-value editor, add new settings
+
+### Files Modified
+- `src/app/layout.tsx` - Updated metadata (Spanish title, description), switched to Sonner toaster
+- `eslint.config.mjs` - Added `bomberos2/**` to ignores
+
+### Key Features Implemented
+1. **Auth Flow**: Cookie-based JWT auth with login page, `/api/auth/me` check on load, seed DB button, proper logout (cookie clearing)
+2. **Login Bug Fix**: Robust error handling with try/catch, loading state reset on both success and error, `/api/auth/me` verification after login
+3. **Fire Theme**: Red/orange/amber color palette, dark slate sidebar, no blue/indigo colors
+4. **Responsive Design**: Mobile-first with collapsible sidebar, responsive grids (1→2→3 cols)
+5. **Spanish UI**: All text in Spanish (labels, buttons, messages, errors, badges)
+6. **State-Based Navigation**: Single `/` route with sidebar controlling active section via React state
+7. **CRUD Patterns**: Create/Edit dialogs, delete confirmations, search/filter, loading skeletons, empty states
+8. **Status Badges**: Color-coded badges for all status types (personnel, incidents, vehicles, alerts, attendance, payments)
+9. **Sticky Footer**: Footer sticks to bottom with `min-h-screen flex flex-col` and `mt-auto`
+10. **Personnel Details**: Seniority calculation, specialty/license badges in both cards and detail view
+
+### Verification
+- ESLint: ✅ No errors (`bun run lint` passes)
+- Dev server: ✅ Compiles and serves correctly
+- API endpoints: ✅ `/api/auth/me`, `/api/auth/login`, `/api/auth/seed` all tested and working
+- Page rendering: ✅ HTML output verified with correct Spanish metadata

@@ -1,9 +1,3 @@
-// This is your Prisma schema file,
-// learn more about it in the docs: https://pris.ly/d/prisma-schema
-
-// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
-// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
-
 generator client {
   provider = "prisma-client-js"
 }
@@ -15,18 +9,201 @@ datasource db {
 
 model User {
   id        String   @id @default(cuid())
-  email     String   @unique
-  name      String?
+  username  String   @unique
+  password  String
+  name      String
+  email     String?
+  role      String   @default("user") // admin, user
+  active    Boolean  @default(true)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
 
-model Post {
-  id        String   @id @default(cuid())
-  title     String
-  content   String?
-  published Boolean  @default(false)
-  authorId  String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
+model Personnel {
+  id            String   @id @default(cuid())
+  firstName     String
+  lastName      String
+  dni           String   @unique
+  rank          String   // Bombero, Cabo, Sargento, Suboficial, Oficial
+  status        String   @default("ACTIVO") // ACTIVO, LICENCIA, BAJA, SUSPENDIDO
+  fitness       String   @default("APTO") // APTO, NO_APTO, CONDICIONAL
+  bloodGroup    String?  // A+, A-, B+, B-, AB+, AB-, O+, O-
+  phone        String?
+  email        String?
+  address      String?
+  joinDate     DateTime?
+  birthDate    DateTime?
+  notes        String?
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  specialties  PersonnelSpecialty[]
+  licenses     PersonnelLicense[]
+  attendance   Attendance[]
+}
+
+model PersonnelSpecialty {
+  id            String   @id @default(cuid())
+  personnelId   String
+  name          String
+  level         String   @default("BASICO") // BASICO, INTERMEDIO, AVANZADO, INSTRUCTOR
+  certificationDate DateTime?
+  expiryDate    DateTime?
+  notes         String?
+  personnel     Personnel @relation(fields: [personnelId], references: [id], onDelete: Cascade)
+}
+
+model PersonnelLicense {
+  id            String   @id @default(cuid())
+  personnelId   String
+  type          String
+  number        String?
+  status        String   @default("VIGENTE") // VIGENTE, VENCIDA, SUSPENDIDA, EN_TRAMITE
+  issueDate     DateTime?
+  expiryDate    DateTime?
+  restrictions  String?
+  notes         String?
+  personnel     Personnel @relation(fields: [personnelId], references: [id], onDelete: Cascade)
+}
+
+model Incident {
+  id            String   @id @default(cuid())
+  type          String   // INCENDIO, RESCATE, ACCIDENTE, FUGA, OTRO
+  description   String
+  address       String?
+  date          DateTime
+  time          String?
+  severity      String   @default("MEDIA") // BAJA, MEDIA, ALTA, CRITICA
+  status        String   @default("ABIERTO") // ABIERTO, EN_PROGRESO, CERRADO
+  personnelInvolved String?
+  vehiclesUsed  String?
+  notes         String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model GuardShift {
+  id            String   @id @default(cuid())
+  date          DateTime
+  shiftType     String   // DIA, NOCHE, COMPLETA
+  personnelIds  String   // JSON array as string
+  notes         String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Attendance {
+  id            String   @id @default(cuid())
+  personnelId   String
+  date          DateTime
+  checkIn       DateTime?
+  checkOut      DateTime?
+  status        String   @default("PRESENTE") // PRESENTE, AUSENTE, TARDE, LICENCIA
+  notes         String?
+  personnel     Personnel @relation(fields: [personnelId], references: [id], onDelete: Cascade)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model DutyLog {
+  id            String   @id @default(cuid())
+  date          DateTime
+  shiftType     String   // DIA, NOCHE
+  personnelId   String?
+  activities    String
+  observations  String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Vehicle {
+  id            String   @id @default(cuid())
+  type          String   // AUTOBOMBA, ESCALERA, RESCATE, UTILITARIO, OTRO
+  brand         String
+  model         String
+  year          Int?
+  plate         String   @unique
+  status        String   @default("OPERATIVO") // OPERATIVO, EN_REPARACION, FUERA_DE_SERVICIO
+  km            Int      @default(0)
+  fuelType      String?  // DIESEL, NAFTA, GNC
+  notes         String?
+  lastMaintenance DateTime?
+  nextMaintenance DateTime?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+
+  damages       VehicleDamage[]
+  fuelRecords   FuelRecord[]
+}
+
+model VehicleDamage {
+  id            String   @id @default(cuid())
+  vehicleId     String
+  description   String
+  date          DateTime
+  severity      String   @default("MEDIA") // BAJA, MEDIA, ALTA
+  status        String   @default("PENDIENTE") // PENDIENTE, EN_REPARACION, REPARADO
+  cost          Float?
+  notes         String?
+  vehicle       Vehicle  @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model FuelRecord {
+  id            String   @id @default(cuid())
+  vehicleId     String
+  date          DateTime
+  liters        Float
+  cost          Float
+  km            Int?
+  supplier      String?
+  notes         String?
+  vehicle       Vehicle  @relation(fields: [vehicleId], references: [id], onDelete: Cascade)
+  createdAt     DateTime @default(now())
+}
+
+model Payment {
+  id            String   @id @default(cuid())
+  type          String   // CUOTA, DONACION, SUBSIDIO, OTRO
+  concept       String
+  amount        Float
+  date          DateTime
+  payer         String?
+  method        String?  // EFECTIVO, TRANSFERENCIA, CHEQUE
+  receipt       String?
+  notes         String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Alert {
+  id            String   @id @default(cuid())
+  type          String   // VENCIMIENTO, MANTENIMIENTO, MEDICO, DOCUMENTO
+  title         String
+  message       String
+  priority      String   @default("MEDIA") // BAJA, MEDIA, ALTA, URGENTE
+  read          Boolean  @default(false)
+  relatedId     String?
+  dueDate       DateTime?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Document {
+  id            String   @id @default(cuid())
+  title         String
+  type          String   // NORMA, PROCEDIMIENTO, INFORME, OTRO
+  content       String?
+  filePath      String?
+  tags          String?
+  createdAt     DateTime @default(now())
+  updatedAt     DateTime @updatedAt
+}
+
+model Setting {
+  id            String   @id @default(cuid())
+  key           String   @unique
+  value         String
+  updatedAt     DateTime @updatedAt
 }
