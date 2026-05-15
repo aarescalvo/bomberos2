@@ -15,6 +15,7 @@ import Guardias from '@/components/Guardias'
 import Asistencias from '@/components/Asistencias'
 import Flota from '@/components/Flota'
 import Inventario from '@/components/Inventario'
+import Puntajes from '@/components/Puntajes'
 import Alertas from '@/components/Alertas'
 import Pagos from '@/components/Pagos'
 import Novedades from '@/components/Novedades'
@@ -148,6 +149,8 @@ export default function Home() {
         return <Flota />
       case 'inventario':
         return <Inventario />
+      case 'puntajes':
+        return <Puntajes />
       case 'alertas':
         return <Alertas />
       case 'pagos':

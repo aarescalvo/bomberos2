@@ -211,3 +211,49 @@ Implemented complete Inventory/Ropería module with equipment tracking, categori
 - ESLint: ✅ No errors
 - Dev server: ✅ Compiles correctly
 - Prisma: ✅ Schema pushed to DB successfully
+
+## Etapa 2: Puntajes Automáticos - COMPLETED
+
+**Date**: 2026-05-14
+**Agent**: Main Agent
+
+### Summary
+Implemented automatic scoring system for firefighters based on attendance, guard shifts, incident participation, service years, specialties, and service rate.
+
+### Schema Changes
+- Added `ScoreConfig` model - Configurable scoring categories with points per unit and monthly caps
+- Added `PersonnelScore` model - Stores calculated scores per personnel/category/month/year with unique constraint
+- Added `scores` relation to `Personnel` model
+
+### API Routes Created
+- `GET/PUT /api/scores/config` - List/Update scoring configuration (auto-seeds defaults on first GET)
+- `POST /api/scores/calculate` - Calculate scores for all active personnel for a given month/year
+  - ASISTENCIA: present days × points (max 30/month)
+  - GUARDIA: guard shifts × points (max 15/month)
+  - INCIDENTE: incidents participated × points (unlimited)
+  - PERMANENCIA: years of service × points (unlimited)
+  - ESPECIALIDAD: specialties count × points (unlimited)
+  - SERVICIO: attendance rate × points (max 20/month)
+- `GET /api/scores/leaderboard` - Ranked leaderboard with breakdown by category
+
+### UI Component
+- `src/components/Puntajes.tsx` - Scoring module with:
+  - 3 stat cards (Top Score, Average, Personnel Evaluated)
+  - Month/Year selector
+  - Calculate button with loading state
+  - Configuration dialog (edit points and max per category)
+  - Ranked leaderboard with position icons (🥇🥈🥉)
+  - Top 3 highlighted with gold border
+  - Category breakdown badges per person
+  - Detail dialog with full score breakdown
+  - Color-coded category badges
+
+### Integration
+- Added `puntajes` section to AppShell sidebar (Trophy icon)
+- Added to Section type and navigation items
+- Imported and routed in page.tsx
+
+### Verification
+- ESLint: ✅ No errors
+- Dev server: ✅ Compiles correctly
+- Prisma: ✅ Schema pushed to DB successfully
