@@ -45,6 +45,18 @@ interface NavItem {
   icon: React.ComponentType<{ className?: string }>
 }
 
+const ROLE_ACCESS: Record<string, Section[]> = {
+  admin: ['dashboard', 'personal', 'incidentes', 'guardias', 'asistencias', 'flota', 'inventario', 'puntajes', 'alertas', 'pagos', 'novedades', 'configuracion'],
+  oficial: ['dashboard', 'personal', 'incidentes', 'guardias', 'asistencias', 'flota', 'inventario', 'puntajes', 'alertas', 'pagos', 'novedades'],
+  bombero: ['dashboard', 'asistencias', 'inventario', 'puntajes', 'alertas', 'novedades'],
+}
+
+const ROLE_LABELS: Record<string, string> = {
+  admin: 'Administrador',
+  oficial: 'Oficial',
+  bombero: 'Bombero',
+}
+
 const navItems: NavItem[] = [
   { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard },
   { id: 'personal', label: 'Personal', icon: Users },
@@ -138,7 +150,12 @@ export default function AppShell({
           {/* Navigation */}
           <ScrollArea className="flex-1 py-2">
             <nav className="space-y-1 px-2">
-              {navItems.map((item) => {
+              {navItems
+                .filter(item => {
+                  const allowed = ROLE_ACCESS[userRole] || ROLE_ACCESS.bombero
+                  return allowed.includes(item.id)
+                })
+                .map((item) => {
                 const isActive = activeSection === item.id
                 return (
                   <button
@@ -172,7 +189,7 @@ export default function AppShell({
               {!sidebarCollapsed && (
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium text-white truncate">{userName}</p>
-                  <p className="text-[10px] text-slate-400 truncate">{userRole}</p>
+                  <p className="text-[10px] text-slate-400 truncate">{ROLE_LABELS[userRole] || userRole}</p>
                 </div>
               )}
               {!sidebarCollapsed && (
@@ -226,7 +243,7 @@ export default function AppShell({
               </Avatar>
               <div className="hidden sm:block">
                 <p className="text-sm font-medium text-gray-900">{userName}</p>
-                <p className="text-xs text-gray-500">{userRole}</p>
+                <p className="text-xs text-gray-500">{ROLE_LABELS[userRole] || userRole}</p>
               </div>
               <Button variant="ghost" size="sm" onClick={onLogout} title="Cerrar sesión">
                 <LogOut className="h-4 w-4 text-gray-500" />

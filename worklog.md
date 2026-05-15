@@ -257,3 +257,40 @@ Implemented automatic scoring system for firefighters based on attendance, guard
 - ESLint: ✅ No errors
 - Dev server: ✅ Compiles correctly
 - Prisma: ✅ Schema pushed to DB successfully
+
+## Etapa 3: Permisos por Rol - COMPLETED
+
+**Date**: 2026-05-14
+**Agent**: Main Agent
+
+### Summary
+Implemented role-based access control with three roles (admin, oficial, bombero), each with different permissions. Added user management in Settings. Updated middleware for API-level permission checks.
+
+### Schema Changes
+- Updated `User.role` default from "user" to "bombero"
+- Roles: admin (full access), oficial (most modules, no user management), bombero (limited read access)
+
+### API Routes Created
+- `GET/POST /api/users` - List/Create users (admin only for mutations)
+- `PUT/DELETE /api/users/[id]` - Update/Delete users (admin only for mutations)
+
+### Middleware Updated
+- Added `ADMIN_ONLY_MUTATIONS` array to restrict user/settings mutations to admin role
+- Non-admin users get 403 on POST/PUT/DELETE to /api/users and /api/settings
+
+### UI Changes
+- **AppShell.tsx**: Added `ROLE_ACCESS` map filtering sidebar navigation by role
+  - admin: all 12 sections visible
+  - oficial: 11 sections (excludes Configuración)
+  - bombero: 6 sections (Dashboard, Asistencias, Inventario, Puntajes, Alertas, Novedades)
+- **AppShell.tsx**: Added `ROLE_LABELS` map for display (Administrador, Oficial, Bombero)
+- **Configuracion.tsx**: Complete rewrite with tabs:
+  - "General" tab: Settings CRUD
+  - "Usuarios" tab: User management with create/edit/deactivate
+  - Role permissions legend card
+  - User cards with role badges, active status, edit/toggle buttons
+
+### Verification
+- ESLint: ✅ No errors
+- Dev server: ✅ Compiles correctly
+- Prisma: ✅ Schema pushed to DB
