@@ -16,6 +16,8 @@ const geistMono = Geist_Mono({
 export const metadata: Metadata = {
   title: "SGP-B | Sistema de Gestión - Bomberos",
   description: "Sistema de Gestión de Personal y Operaciones para Bomberos",
+  manifest: "/manifest.json",
+  themeColor: "#dc2626",
 };
 
 export default function RootLayout({

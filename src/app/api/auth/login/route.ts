@@ -6,7 +6,7 @@ import { signToken } from '@/lib/auth'
 export async function POST(request: Request) {
   try {
     const body = await request.json()
-    const { username, password } = body
+    const { username, password, rememberMe } = body
 
     if (!username || !password) {
       return NextResponse.json(
@@ -54,7 +54,7 @@ export async function POST(request: Request) {
       httpOnly: true,
       secure: process.env.NODE_ENV === 'production',
       sameSite: 'lax',
-      maxAge: 60 * 60 * 24, // 24 hours
+      maxAge: rememberMe ? 60 * 60 * 24 * 30 : 60 * 60 * 24, // 30 days or 24 hours
       path: '/',
     })
 

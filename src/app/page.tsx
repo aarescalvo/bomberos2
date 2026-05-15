@@ -6,6 +6,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Flame, Loader2, Database, AlertCircle } from 'lucide-react'
+import { Checkbox } from '@/components/ui/checkbox'
 import { toast } from 'sonner'
 import AppShell, { type Section } from '@/components/AppShell'
 import Dashboard from '@/components/Dashboard'
@@ -16,6 +17,7 @@ import Asistencias from '@/components/Asistencias'
 import Flota from '@/components/Flota'
 import Inventario from '@/components/Inventario'
 import Puntajes from '@/components/Puntajes'
+import Reportes from '@/components/Reportes'
 import Alertas from '@/components/Alertas'
 import Pagos from '@/components/Pagos'
 import Novedades from '@/components/Novedades'
@@ -39,6 +41,7 @@ export default function Home() {
   const [loginLoading, setLoginLoading] = useState(false)
   const [loginError, setLoginError] = useState('')
   const [seeding, setSeeding] = useState(false)
+  const [rememberMe, setRememberMe] = useState(false)
 
   const checkAuth = useCallback(async () => {
     try {
@@ -69,7 +72,7 @@ export default function Home() {
       const res = await fetch('/api/auth/login', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ username, password }),
+        body: JSON.stringify({ username, password, rememberMe }),
       })
 
       const data = await res.json()
@@ -151,6 +154,8 @@ export default function Home() {
         return <Inventario />
       case 'puntajes':
         return <Puntajes />
+      case 'reportes':
+        return <Reportes />
       case 'alertas':
         return <Alertas />
       case 'pagos':
@@ -227,6 +232,18 @@ export default function Home() {
                   <p className="text-sm text-red-700">{loginError}</p>
                 </div>
               )}
+
+              <div className="flex items-center space-x-2">
+                <Checkbox
+                  id="remember"
+                  checked={rememberMe}
+                  onCheckedChange={(checked) => setRememberMe(checked === true)}
+                  disabled={loginLoading}
+                />
+                <Label htmlFor="remember" className="text-sm text-gray-600 cursor-pointer">
+                  Mantener sesión iniciada
+                </Label>
+              </div>
 
               <Button
                 type="submit"

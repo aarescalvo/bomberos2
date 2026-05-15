@@ -23,6 +23,7 @@ import {
   Flame as FireIcon,
   Package,
   Trophy,
+  FileText,
 } from 'lucide-react'
 
 export type Section =
@@ -34,6 +35,7 @@ export type Section =
   | 'flota'
   | 'inventario'
   | 'puntajes'
+  | 'reportes'
   | 'alertas'
   | 'pagos'
   | 'novedades'
@@ -46,9 +48,9 @@ interface NavItem {
 }
 
 const ROLE_ACCESS: Record<string, Section[]> = {
-  admin: ['dashboard', 'personal', 'incidentes', 'guardias', 'asistencias', 'flota', 'inventario', 'puntajes', 'alertas', 'pagos', 'novedades', 'configuracion'],
-  oficial: ['dashboard', 'personal', 'incidentes', 'guardias', 'asistencias', 'flota', 'inventario', 'puntajes', 'alertas', 'pagos', 'novedades'],
-  bombero: ['dashboard', 'asistencias', 'inventario', 'puntajes', 'alertas', 'novedades'],
+  admin: ['dashboard', 'personal', 'incidentes', 'guardias', 'asistencias', 'flota', 'inventario', 'puntajes', 'reportes', 'alertas', 'pagos', 'novedades', 'configuracion'],
+  oficial: ['dashboard', 'personal', 'incidentes', 'guardias', 'asistencias', 'flota', 'inventario', 'puntajes', 'reportes', 'alertas', 'pagos', 'novedades'],
+  bombero: ['dashboard', 'asistencias', 'inventario', 'puntajes', 'reportes', 'alertas', 'novedades'],
 }
 
 const ROLE_LABELS: Record<string, string> = {
@@ -66,6 +68,7 @@ const navItems: NavItem[] = [
   { id: 'flota', label: 'Flota', icon: Truck },
   { id: 'inventario', label: 'Inventario', icon: Package },
   { id: 'puntajes', label: 'Puntajes', icon: Trophy },
+  { id: 'reportes', label: 'Reportes', icon: FileText },
   { id: 'alertas', label: 'Alertas', icon: Bell },
   { id: 'pagos', label: 'Pagos', icon: DollarSign },
   { id: 'novedades', label: 'Novedades', icon: ClipboardList },

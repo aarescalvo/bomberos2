@@ -294,3 +294,41 @@ Implemented role-based access control with three roles (admin, oficial, bombero)
 - ESLint: ✅ No errors
 - Dev server: ✅ Compiles correctly
 - Prisma: ✅ Schema pushed to DB
+
+## Etapa 4: Reportes Personalizados - COMPLETED
+
+**Date**: 2026-05-14
+**Agent**: Main Agent
+
+### Summary
+Created Reports module with CSV export for all data modules and visual charts for personnel distribution and financial summary.
+
+### UI Component
+- `src/components/Reportes.tsx` - Reports module with:
+  - Quick stats overview (4 cards: Active Personnel, Incidents, Vehicles, Balance)
+  - Export tab: Click-to-export CSV for Personnel, Incidents, Fleet, Payments
+  - Charts tab: Personnel by rank (horizontal bar chart), Financial summary (income/expense/balance)
+  - All data fetched from existing API endpoints
+  - UTF-8 BOM encoding for Excel compatibility
+
+### Integration
+- Added `reportes` section to AppShell sidebar (FileText icon)
+- Added to all role access levels (admin, oficial, bombero)
+
+## Etapa 5: Mantener Sesión + PWA - COMPLETED
+
+**Date**: 2026-05-14
+**Agent**: Main Agent
+
+### Summary
+Added "Remember me" checkbox to login (extends session from 24h to 30 days) and PWA manifest for mobile app installation.
+
+### Changes
+- **Login API**: Added `rememberMe` parameter, sets cookie maxAge to 30 days (vs 24 hours)
+- **Login UI**: Added Checkbox component with "Mantener sesión iniciada" label
+- **PWA Manifest**: Created `/public/manifest.json` with app name, theme color (#dc2626), standalone display
+- **Layout**: Added `manifest` and `themeColor` metadata to root layout
+
+### Verification
+- ESLint: ✅ No errors
+- Dev server: ✅ Compiles correctly

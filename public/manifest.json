@@ -1,0 +1,16 @@
+{
+  "name": "SGP-B - Sistema de Gestión de Bomberos",
+  "short_name": "SGP-B",
+  "description": "Sistema de Gestión de Personal - Bomberos Voluntarios",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#1e293b",
+  "theme_color": "#dc2626",
+  "icons": [
+    {
+      "src": "/logo.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}
