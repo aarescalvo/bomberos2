@@ -138,3 +138,30 @@ Built the complete SGP-B Fire Station Management System frontend as a single-pag
 - Dev server: ✅ Compiles and serves correctly
 - API endpoints: ✅ `/api/auth/me`, `/api/auth/login`, `/api/auth/seed` all tested and working
 - Page rendering: ✅ HTML output verified with correct Spanish metadata
+
+## Task 5: GitHub Push & FSA Competitive Analysis - COMPLETED
+
+**Date**: 2026-05-14
+**Agent**: Main Agent
+
+### Summary
+Pushed code to GitHub (https://github.com/aarescalvo/bomberos2) and analyzed competitor FSA (Firefighters Sys Admin by GlobalSysAdmin) for improvement ideas. Could not access FSA's inventory page (requires credentials) but extracted features from their public site.
+
+### FSA Features Identified
+1. **Puntaje personal automático** - Automatic scoring per firefighter based on services, emergencies, permanence, and attendance compliance
+2. **Registro de asistencias** - Real-time attendance monitoring, load now or complete later
+3. **Reportes personalizados** - Dynamic visualization of activities, reports with clear metrics
+4. **Administración de bomberos y roles** - Configurable operational hierarchies, permissions
+5. **Gestión de inventario** - Ropería (clothing/equipment) control per firefighter, status, expirations, stock
+6. **Guardias** - Shift management with traceability
+7. **Mantenimiento de vehículos** - Vehicle maintenance (in development per FAQ)
+8. **Análisis avanzado de intervenciones** - Advanced incident analysis (in development)
+
+### Improvement Ideas for SGP-B (based on FSA analysis)
+- **Scoring/Puntajes system**: Auto-calculate firefighter scores from attendance, services, incidents
+- **Inventario/Ropería**: Track equipment assigned to each firefighter (helmet, suit, boots, etc.) with status and expirations
+- **Role-based permissions**: Granular permission system (admin, officer, firefighter views)
+- **Reports module**: Generate PDF/Excel reports with charts
+- **Real-time attendance**: Live check-in/out with time tracking
+- **"Mantener sesión iniciada"**: Remember me option on login
+- **PWA Support**: Installable as app on mobile devices
