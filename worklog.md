@@ -332,3 +332,29 @@ Added "Remember me" checkbox to login (extends session from 24h to 30 days) and 
 ### Verification
 - ESLint: ✅ No errors
 - Dev server: ✅ Compiles correctly
+
+## Etapa 6: Asistencia Tiempo Real + Análisis Intervenciones - COMPLETED
+
+**Date**: 2026-05-14
+**Agent**: Main Agent
+
+### Summary
+Enhanced attendance module with real-time check-in/check-out, today's stats, and quick check-in for unchecked personnel. Added attendance update API endpoint.
+
+### API Routes Created
+- `PUT /api/attendance/[id]` - Update attendance record (check-out, status change)
+
+### UI Changes - Asistencias.tsx (Major Rewrite)
+- 4 today's stat cards (Present, Late, Absent, Total Active)
+- Tabs: "Check-in Rápido" / "Historial"
+- Quick Check-in tab: Shows personnel not yet checked in today with one-click check-in button
+- Today's records section with check-out button for active records
+- History tab: Date filter + status filter + card grid
+- Real-time check-in sets current timestamp automatically
+- Check-out button sets current timestamp
+
+### Verification
+- ESLint: ✅ No errors
+- Dev server: ✅ Compiles correctly
+
+## All 6 Etapas COMPLETED ✅
