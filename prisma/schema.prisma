@@ -37,9 +37,10 @@ model Personnel {
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
 
-  specialties  PersonnelSpecialty[]
-  licenses     PersonnelLicense[]
-  attendance   Attendance[]
+  specialties    PersonnelSpecialty[]
+  licenses       PersonnelLicense[]
+  attendance     Attendance[]
+  equipmentItems EquipmentAssignment[]
 }
 
 model PersonnelSpecialty {
@@ -206,4 +207,51 @@ model Setting {
   key           String   @unique
   value         String
   updatedAt     DateTime @updatedAt
+}
+
+// --- Inventario / Ropería ---
+
+model EquipmentCategory {
+  id          String   @id @default(cuid())
+  name        String   @unique // Ej: Casco, Traje de aproximación, Botas, Guantes, Manguera, etc.
+  description String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  items       EquipmentItem[]
+}
+
+model EquipmentItem {
+  id          String   @id @default(cuid())
+  categoryId  String
+  code        String   @unique // Código de inventario
+  brand       String?
+  model       String?
+  size        String?  // S, M, L, XL, etc.
+  serialNumber String?
+  status      String   @default("DISPONIBLE") // DISPONIBLE, ASIGNADO, EN_REPARACION, DADO_DE_BAJA
+  condition   String   @default("NUEVO") // NUEVO, BUENO, REGULAR, MALO
+  purchaseDate DateTime?
+  expiryDate  DateTime?
+  notes       String?
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  category    EquipmentCategory @relation(fields: [categoryId], references: [id])
+  assignments EquipmentAssignment[]
+}
+
+model EquipmentAssignment {
+  id           String    @id @default(cuid())
+  itemId       String
+  personnelId  String
+  assignedDate DateTime  @default(now())
+  returnedDate DateTime?
+  status       String    @default("ACTIVO") // ACTIVO, DEVUELTO, VENCIDO
+  notes        String?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  item         EquipmentItem @relation(fields: [itemId], references: [id])
+  personnel    Personnel     @relation(fields: [personnelId], references: [id], onDelete: Cascade)
 }

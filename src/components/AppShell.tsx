@@ -21,6 +21,7 @@ import {
   X,
   ChevronLeft,
   Flame as FireIcon,
+  Package,
 } from 'lucide-react'
 
 export type Section =
@@ -30,6 +31,7 @@ export type Section =
   | 'guardias'
   | 'asistencias'
   | 'flota'
+  | 'inventario'
   | 'alertas'
   | 'pagos'
   | 'novedades'
@@ -48,6 +50,7 @@ const navItems: NavItem[] = [
   { id: 'guardias', label: 'Guardias', icon: Calendar },
   { id: 'asistencias', label: 'Asistencias', icon: Clock },
   { id: 'flota', label: 'Flota', icon: Truck },
+  { id: 'inventario', label: 'Inventario', icon: Package },
   { id: 'alertas', label: 'Alertas', icon: Bell },
   { id: 'pagos', label: 'Pagos', icon: DollarSign },
   { id: 'novedades', label: 'Novedades', icon: ClipboardList },

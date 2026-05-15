@@ -165,3 +165,49 @@ Pushed code to GitHub (https://github.com/aarescalvo/bomberos2) and analyzed com
 - **Real-time attendance**: Live check-in/out with time tracking
 - **"Mantener sesión iniciada"**: Remember me option on login
 - **PWA Support**: Installable as app on mobile devices
+
+## Etapa 1: Inventario / Ropería - COMPLETED
+
+**Date**: 2026-05-14
+**Agent**: Main Agent
+
+### Summary
+Implemented complete Inventory/Ropería module with equipment tracking, categories, assignments to personnel, and expiration alerts.
+
+### Schema Changes
+- Added `EquipmentCategory` model - Equipment categories (helmets, suits, boots, etc.)
+- Added `EquipmentItem` model - Individual items with code, brand, model, size, serial number, status, condition, purchase/expiry dates
+- Added `EquipmentAssignment` model - Tracks which firefighter has which equipment, with assignment/return dates
+- Added `equipmentItems` relation to `Personnel` model
+
+### API Routes Created
+- `GET/POST /api/equipment/categories` - List/Create categories
+- `GET/POST /api/equipment/items` - List/Create items (with category + assignment includes)
+- `GET/PUT/DELETE /api/equipment/items/[id]` - CRUD single item
+- `GET/POST /api/equipment/assign` - List/Create assignments (transactional: auto-updates item status)
+- `PUT/DELETE /api/equipment/assign/[id]` - Return item / delete assignment
+
+### UI Component
+- `src/components/Inventario.tsx` - Full inventory module with:
+  - 5 stat cards (Total, Available, Assigned, Expiring Soon, Expired)
+  - Search by code, brand, category
+  - Filter by category and status
+  - Tabs: Items view / Categories view
+  - Create/Edit item dialog with all fields
+  - Create category dialog
+  - Assign to personnel dialog (only for available items)
+  - Return equipment button
+  - Item detail dialog with assignment history
+  - Delete confirmation
+  - Color-coded status and condition badges
+  - Expiration warnings (vencido/por vencer)
+
+### Integration
+- Added `inventario` section to AppShell sidebar (Package icon)
+- Added to Section type and navigation items
+- Imported and routed in page.tsx
+
+### Verification
+- ESLint: ✅ No errors
+- Dev server: ✅ Compiles correctly
+- Prisma: ✅ Schema pushed to DB successfully
